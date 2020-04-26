@@ -1,0 +1,2 @@
+add_subdirectory(lib_calculator_api)
+add_subdirectory(server)
