@@ -1,0 +1,12 @@
+---
+- name: "DEV_ENV: Remove old tmp directory"
+  file:
+    dest: "{{tmp_dir}}"
+    state: absent
+  ignore_errors: yes
+  become: yes
+
+- name: "DEV_ENV: Create new tmp directory"
+  file:
+    dest: "{{tmp_dir}}"
+    state: directory

@@ -1,0 +1,45 @@
+- name: Install Boost dependencies
+  apt: name={{item}} state=present update_cache=yes
+  become: yes
+  with_items:
+    - build-essential
+    - libbz2-dev
+    - zlib1g-dev
+    - libssl1.1
+    - libssl-dev
+
+- name: "DEV_ENV: Set path to Boost"
+  set_fact:
+    boost_work_dir: "{{tmp_dir}}/boost"
+
+- name: "DEV_ENV: Create work directory"
+  file: path={{boost_work_dir}} state=directory
+
+- name: "DEV_ENV: Create install directory"
+  file: path={{boost_prefix}} state=directory
+  when: boost_prefix is defined
+  become: yes
+
+- name: "DEV_ENV: Get boost source"
+  get_url:
+    url: "http://downloads.sourceforge.net/project/boost/boost/{{boost_version}}/{{boost_tar_name}}"
+    dest: "{{boost_work_dir}}"
+    timeout: 120
+
+- name: "DEV_ENV: Unpack tarball"
+  command: /bin/tar jxfv {{boost_work_dir}}/{{boost_tar_name}} -C {{boost_work_dir}}
+
+- name: "DEV_ENV: Bootstrap Boost"
+  command: chdir={{boost_work_dir}}/{{boost_build_dir}} ./bootstrap.sh
+  when: boost_prefix is not defined
+
+- name: "DEV_ENV: Bootstrap Boost"
+  command: chdir={{boost_work_dir}}/{{boost_build_dir}} ./bootstrap.sh --prefix={{boost_prefix}}
+  when: boost_prefix is defined
+
+- name: "DEV_ENV: Make Boost"
+  command: chdir={{boost_work_dir}}/{{boost_build_dir}} ./b2
+
+- name: "DEV_ENV: Install Boost"
+  become: yes
+  command: chdir={{boost_work_dir}}/{{boost_build_dir}} ./b2 install

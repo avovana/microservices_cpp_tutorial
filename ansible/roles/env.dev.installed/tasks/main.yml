@@ -1,0 +1,13 @@
+---
+# role execution time: .. min
+
+- name: "DEV_ENV: apt update"
+  apt:
+    update_cache: yes
+  become: yes
+
+- import_tasks: "recreate_tmp_dir.yml"
+#- import_tasks: "install_toolchain.yml"
+#- import_tasks: "install_cmake.yml"
+- import_tasks: "install_boost_lib.yml"
+- import_tasks: "install_apache_thrift_lib.yml"

@@ -1,0 +1,7 @@
+---
+# TODO specify version!
+- name: "DEV_ENV: apt install CMake"
+  apt:
+    name: "cmake"
+    install_recommends: yes
+  become: yes

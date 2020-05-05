@@ -1,0 +1,12 @@
+---
+
+- name: "DEV_ENV: install development deps"
+  apt: pkg={{item}} install_recommends=yes
+  with_items:
+  # toolchain
+  - gcc
+  - g++
+  - make
+  - pkgconf
+  - libtool
+  become: yes

@@ -1,0 +1,16 @@
+---
+project_name: microservices_cpp_tutorial_ansible
+
+# builder paths
+tmp_dir: "/home/{{ansible_user}}/tmp/"
+
+# Toolchain
+gcc_make_cpu_count: 8
+
+# Versions of 3rd party libraries
+apache_thrift_version: "0.10.0"
+
+cmake_version: "3.16" # unused
+boost_version: "1.67.0"
+boost_build_dir: 'boost_{{boost_version.replace(".", "_")}}'
+boost_tar_name: '{{boost_build_dir}}.tar.bz2'

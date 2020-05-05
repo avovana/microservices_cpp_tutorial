@@ -1,0 +1,37 @@
+---
+
+- name: "DEV_ENV: Download Apache Thrift package"
+  get_url:
+    url: "https://github.com/apache/thrift/archive/{{apache_thrift_version}}.tar.gz"
+    dest: "{{tmp_dir}}/apache_thrift.tar.gz"
+
+- name: "DEV_ENV: Unarchive Apache Thrift"
+  unarchive:
+    src: "{{tmp_dir}}/apache_thrift.tar.gz"
+    dest: "{{tmp_dir}}"
+    remote_src: yes
+
+
+- name: "DEV_ENV: Set path to Apache Thrift"
+  set_fact:
+    apache_thrift_dir: "{{tmp_dir}}/thrift-{{apache_thrift_version}}"
+
+- name: "DEV_ENV: Build Apache Thrift"
+  shell: "./bootstrap.sh"
+  args:
+    chdir: "{{apache_thrift_dir}}"
+
+- name: "DEV_ENV: Configure"
+  shell: "./configure --enable-tests=no --enable-tutorial=no --enable-coverage=no --with-cpp=yes"
+  args:
+    chdir: "{{apache_thrift_dir}}"
+
+- name: "DEV_ENV: Make"
+  shell: "make -j{{gcc_make_cpu_count}}"
+  args:
+    chdir: "{{apache_thrift_dir}}"
+
+- shell: "make install"
+  args:
+    chdir: "{{apache_thrift_dir}}"
+  become: yes

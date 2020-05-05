@@ -1,0 +1,7 @@
+all:
+  children:
+    builder_node:
+      hosts:
+        builder_node_1:
+          ansible_user: user
+          ansible_connection: local

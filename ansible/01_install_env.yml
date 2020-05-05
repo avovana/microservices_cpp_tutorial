@@ -1,0 +1,7 @@
+---
+# script execution time: 47 min
+
+- hosts: builder_node
+  any_errors_fatal: true
+  roles:
+  - env.dev.installed
