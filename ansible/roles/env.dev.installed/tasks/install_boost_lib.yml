@@ -3,6 +3,7 @@
   become: yes
   with_items:
     - build-essential
+    - python-dev
     - libbz2-dev
     - zlib1g-dev
     - libssl1.1
