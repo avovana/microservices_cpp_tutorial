@@ -3,10 +3,13 @@
 - name: "DEV_ENV: install development deps"
   apt: pkg={{item}} install_recommends=yes
   with_items:
-  # toolchain
   - gcc
   - g++
   - make
+  - automake
+  - autoconf
   - pkgconf
   - libtool
+  - bison
+  - flex
   become: yes

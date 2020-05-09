@@ -1,0 +1,22 @@
+---
+# role execution time: 2 min
+
+- name: "ENV: fix apt"
+  shell: "apt-get autoremove -y && apt-get -y clean && apt-get -y autoclean"
+  become: yes
+  args:
+    warn: false
+
+- name: "ENV: apt update"
+  apt:
+    update_cache: yes
+  become: yes
+
+- name: "ENV: install common deps"
+  apt: pkg={{item}} install_recommends=yes
+  with_items:
+  - tree
+  - htop
+  - python3-setuptools
+  become: yes
+

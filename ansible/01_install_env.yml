@@ -4,4 +4,5 @@
 - hosts: builder_node
   any_errors_fatal: true
   roles:
+  - env.common.installed
   - env.dev.installed
